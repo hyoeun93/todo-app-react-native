@@ -1,8 +1,6 @@
 import React from 'react';
-import { Platform } from 'react-native';
 import { Header, Body, Title } from 'native-base';
 
-// static app header
 const AppHeader = () => (
     <Header style={{ backgroundColor: '#5067FF', height: 75 }}>
         <Body

@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TodoItem snapShot 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "bottom": 20,
+      "flexDirection": "column",
+      "height": 56,
+      "left": undefined,
+      "position": "absolute",
+      "right": 20,
+      "top": undefined,
+      "width": 56,
+    }
+  }
+>
+  <View
+    accessible={true}
+    focusable={true}
+    isTVSelectable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#5067FF",
+        "borderRadius": 28,
+        "bottom": 0,
+        "elevation": 4,
+        "height": 56,
+        "justifyContent": "center",
+        "opacity": 1,
+        "position": "absolute",
+        "shadowColor": "#000",
+        "shadowOffset": Object {
+          "height": 2,
+          "width": 0,
+        },
+        "shadowOpacity": 0.4,
+        "shadowRadius": 2,
+        "width": 56,
+      }
+    }
+  >
+    <Text />
+  </View>
+</View>
+`;
