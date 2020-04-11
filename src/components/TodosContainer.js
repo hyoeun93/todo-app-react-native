@@ -9,51 +9,40 @@ import Header from './Header'
 import { CheckBox, Body } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import TodoItem from './TodoItem';
+import { connect } from 'react-redux';
+import { loadTodos, addTodo, toggleTodo, deleteTodo } from '../actions/actionCreators'
 
-export default class TodosContainer extends Component {
+class TodosContainer extends Component {
     constructor(props) {
         super(props)
         this.state = {
-          todos: [],
+        
           addingTodo: false
         }
       }
 
     getTodos() {
-        fetch('http://localhost:3000/api/v1/todos')
-        .then(res => res.json())
-        .then((data => {
-            this.setState({
-                todos: data
-            })
-        }))
+        axios.get('http://localhost:3000/api/v1/todos')
+        .then(res => {
+            this.props.dispatch(loadTodos(res.data))
+        })
         .catch(error => console.log(error))
     };
 
-    createTodo = data => {
+    createTodo = (data) => {
         axios.post('http://localhost:3000/api/v1/todos', {todo: {title: data}})
         .then(res => {
-            const todos = update(this.state.todos, {
-                $splice: [[0, 0, res.data]]
-            })
-            this.setState({
-                todos: todos 
-            })
+            this.props.dispatch(addTodo(res.data.id, res.data.title))
+            data = '';
+
         })
         .catch(error => console.log(error))
     }
 
     updateTodo = (data, id) => {
-        // debugger
         axios.put(`http://localhost:3000/api/v1/todos/${id}`, {todo: {done: data}})
         .then(res => {
-            const todoIndex = this.state.todos.findIndex(x => x.id === res.data.id)
-            const todos = update(this.state.todos, {
-                [todoIndex]: {$set: res.data}
-            })
-            this.setState({
-                todos: todos
-            })
+            this.props.dispatch(toggleTodo(id))
         })
         .catch(error => console.log(error))
     }
@@ -61,13 +50,7 @@ export default class TodosContainer extends Component {
     deleteTodo = (id) => {
         axios.delete(`http://localhost:3000/api/v1/todos/${id}`)
         .then(res => {
-            const todoIndex = this.state.todos.findIndex(x => x.id === res.data.id)
-            const todos = update(this.state.todos, {
-                $splice: [[todoIndex, 1]]
-            })
-            this.setState({
-                todos: todos 
-            })
+            this.props.dispatch(deleteTodo(id))
         })
         .catch(error => console.log(error))
     }
@@ -95,7 +78,7 @@ export default class TodosContainer extends Component {
                     </View>
                 ) : null}
                 <FlatList 
-                    data={this.state.todos}
+                    data={this.props.todos}
                     renderItem={({ item }) => 
                         <TodoItem 
                             todo={item}
@@ -158,4 +141,11 @@ const styles = StyleSheet.create({
         paddingVertical: 5
     }
   });
+
+  const mapStateToProps = (state) => {
+      return {
+        todos: state.todos
+      }
+  }
   
+  export default connect(mapStateToProps)(TodosContainer);
